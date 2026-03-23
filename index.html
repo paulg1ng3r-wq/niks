@@ -3,298 +3,565 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NiksOS 3.0 — Professioneel Niets</title>
+<title>NiksOS 4.0 ULTRA</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #080808; --panel: #111; --border: #222; --fg: #e8e4d8;
-  --muted: #333; --mid: #666; --accent: #ff3c00;
-  --green: #00ff7f; --yellow: #ffd700; --blue: #00aaff;
-}
+:root{--bg:#060606;--panel:#0e0e0e;--panel2:#0a0a0a;--border:#1c1c1c;--fg:#e8e4d8;--muted:#2a2a2a;--mid:#555;--accent:#ff3c00;--green:#00ff7f;--yellow:#ffd700;--blue:#00aaff;--purple:#cc44ff;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:13px;}
+html{font-size:12px;}
 body{background:var(--bg);color:var(--fg);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;cursor:none;}
-#cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
-#topbar{position:fixed;top:0;left:0;right:0;height:36px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:1.5rem;z-index:1000;font-size:0.7rem;letter-spacing:.15em;}
-#topbar .logo{font-family:'Bebas Neue';font-size:1.1rem;color:var(--accent);letter-spacing:.1em;}
-#topbar .nav-item{color:var(--mid);cursor:none;transition:color .2s;}
-#topbar .nav-item:hover{color:var(--fg);}
-#topbar .spacer{flex:1;}
-#clock{color:var(--mid);font-size:.65rem;}
-#status-text{color:var(--mid);font-size:.6rem;}
-#main{margin-top:36px;display:grid;grid-template-columns:220px 1fr 220px;gap:1px;background:var(--border);min-height:calc(100vh - 36px);}
-.panel{background:var(--panel);padding:1rem;overflow-y:auto;}
-.panel-title{font-size:.6rem;letter-spacing:.25em;color:var(--mid);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.75rem;display:flex;justify-content:space-between;align-items:center;}
-.badge{background:var(--accent);color:var(--bg);font-size:.5rem;padding:1px 4px;letter-spacing:.1em;}
-#center{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:1.5rem;gap:6px;}
-.hero-btn{background:var(--accent);color:var(--bg);border:none;font-family:'Bebas Neue';font-size:2rem;letter-spacing:.1em;padding:.9rem 3rem;cursor:none;box-shadow:5px 5px 0 var(--fg);transition:transform .1s,box-shadow .1s;width:100%;max-width:340px;}
-.hero-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--fg);}
-.hero-btn:active{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--fg);}
-.fn-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;max-width:340px;}
-.fn-btn{background:var(--muted);color:var(--mid);border:1px solid var(--border);font-family:'Space Mono';font-size:.58rem;letter-spacing:.08em;padding:.45rem .4rem;cursor:none;text-align:left;transition:all .15s;overflow:hidden;}
-.fn-btn:hover{background:#1a1a1a;color:var(--fg);border-color:var(--mid);}
+#cursor{position:fixed;width:9px;height:9px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;height:32px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 .75rem;gap:1rem;z-index:1000;font-size:.62rem;letter-spacing:.12em;overflow:hidden;}
+.logo{font-family:'Bebas Neue';font-size:1rem;color:var(--accent);letter-spacing:.08em;white-space:nowrap;}
+.nav-item{color:var(--mid);cursor:none;transition:color .15s;white-space:nowrap;}
+.nav-item:hover{color:var(--fg);}
+.spacer{flex:1;}
+.topstat{color:var(--muted);font-size:.52rem;letter-spacing:.08em;white-space:nowrap;}
+.topstat span{color:var(--mid);}
+#clock{color:var(--mid);font-size:.6rem;white-space:nowrap;}
+
+/* SECOND BAR */
+#secondbar{position:fixed;top:32px;left:0;right:0;height:24px;background:#080808;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 .75rem;gap:.75rem;z-index:999;font-size:.5rem;letter-spacing:.1em;overflow:hidden;}
+.sbar-item{color:var(--muted);white-space:nowrap;}
+.sbar-item span{transition:color .3s;}
+
+/* LAYOUT: 5 columns */
+#main{margin-top:56px;display:grid;grid-template-columns:190px 190px 1fr 190px 190px;gap:1px;background:var(--border);min-height:calc(100vh - 56px);}
+
+/* PANELS */
+.panel{background:var(--panel);padding:.75rem;overflow-y:auto;max-height:calc(100vh - 56px);}
+.panel2{background:var(--panel2);}
+.pt{font-size:.55rem;letter-spacing:.22em;color:var(--mid);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center;}
+.badge{background:var(--accent);color:var(--bg);font-size:.45rem;padding:1px 3px;letter-spacing:.08em;}
+.badge.g{background:var(--green);color:#000;}
+.badge.b{background:var(--blue);color:#000;}
+.badge.y{background:var(--yellow);color:#000;}
+.badge.p{background:var(--purple);color:#000;}
+
+/* STAT ROWS */
+.sr{display:flex;justify-content:space-between;font-size:.54rem;padding:.22rem 0;border-bottom:1px solid var(--border);color:var(--mid);}
+.sr .v{color:var(--fg);font-weight:700;}
+.sr .v.r{color:var(--accent);}
+.sr .v.g{color:var(--green);}
+.sr .v.y{color:var(--yellow);}
+.sr .v.b{color:var(--blue);}
+.sr .v.p{color:var(--purple);}
+
+/* METERS */
+.meter{margin-bottom:.55rem;}
+.ml{display:flex;justify-content:space-between;font-size:.5rem;color:var(--mid);margin-bottom:2px;}
+.mb{height:3px;background:var(--muted);}
+.mf{height:100%;background:var(--accent);transition:width .9s ease;}
+.mf.g{background:var(--green);}
+.mf.b{background:var(--blue);}
+.mf.y{background:var(--yellow);}
+.mf.p{background:var(--purple);}
+
+/* BUTTONS */
+.hero-btn{background:var(--accent);color:var(--bg);border:none;font-family:'Bebas Neue';font-size:2rem;letter-spacing:.1em;padding:.8rem 2.5rem;cursor:none;box-shadow:4px 4px 0 var(--fg);transition:transform .1s,box-shadow .1s;width:100%;max-width:320px;}
+.hero-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--fg);}
+.hero-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--fg);}
+
+.fn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;width:100%;max-width:320px;}
+.fn-btn{background:var(--muted);color:var(--mid);border:1px solid var(--border);font-family:'Space Mono';font-size:.5rem;letter-spacing:.06em;padding:.38rem .3rem;cursor:none;text-align:left;transition:all .12s;overflow:hidden;white-space:nowrap;}
+.fn-btn:hover{background:#181818;color:var(--fg);border-color:var(--mid);}
 .fn-btn:active{background:var(--accent);color:var(--bg);}
-.fn-btn .fn-icon{font-size:.85rem;margin-right:3px;}
 .fn-btn.loading{color:var(--yellow);border-color:var(--yellow);}
 .fn-btn.done{color:var(--green);border-color:var(--green);}
 .fn-btn.error{color:var(--accent);border-color:var(--accent);}
-#log{width:100%;max-width:340px;height:130px;background:#000;border:1px solid var(--border);overflow-y:auto;padding:.4rem;font-size:.55rem;letter-spacing:.04em;color:var(--mid);scrollbar-width:thin;scrollbar-color:var(--muted) transparent;}
+.fn-btn .fi{font-size:.75rem;margin-right:2px;}
+
+.wide-btn{background:var(--muted);color:var(--mid);border:1px solid var(--border);font-family:'Space Mono';font-size:.52rem;letter-spacing:.06em;padding:.35rem .5rem;cursor:none;text-align:left;transition:all .12s;width:100%;margin-bottom:3px;}
+.wide-btn:hover{background:#181818;color:var(--fg);border-color:var(--mid);}
+.wide-btn:active{background:var(--accent);color:var(--bg);}
+
+/* CENTER */
+#center{grid-column:3;display:flex;flex-direction:column;align-items:center;padding:1.2rem;gap:5px;}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(2.5rem,6vw,4.5rem);line-height:.88;letter-spacing:.02em;text-align:center;width:100%;max-width:320px;}
+.hero-title span{color:var(--accent);display:block;}
+.hero-sub{font-size:.52rem;color:var(--muted);letter-spacing:.18em;font-style:italic;}
+#result{font-size:.6rem;color:var(--mid);letter-spacing:.07em;min-height:1rem;text-align:center;width:100%;max-width:320px;transition:color .3s;}
+#result.active{color:var(--accent);}
+.section-label{font-size:.5rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;width:100%;max-width:320px;border-top:1px solid var(--border);padding-top:.55rem;margin-top:.2rem;}
+
+/* PROGRESS */
+.prog-wrap{width:100%;max-width:320px;}
+.prog-track{height:2px;background:var(--muted);}
+.prog-fill{height:100%;background:var(--accent);width:0%;transition:width 2.5s cubic-bezier(.4,0,.2,1);}
+.prog-info{display:flex;justify-content:space-between;font-size:.47rem;color:var(--muted);margin-top:2px;letter-spacing:.07em;}
+
+/* LOG */
+#log{width:100%;max-width:320px;height:120px;background:#000;border:1px solid var(--border);overflow-y:auto;padding:.35rem;font-size:.5rem;letter-spacing:.03em;color:var(--mid);scrollbar-width:thin;}
 #log .ll{margin-bottom:2px;}
-#log .ok{color:var(--green);}
-#log .err{color:var(--accent);}
-#log .warn{color:var(--yellow);}
-#log .info{color:var(--blue);}
-.meter{margin-bottom:.65rem;}
-.meter-label{display:flex;justify-content:space-between;font-size:.55rem;color:var(--mid);letter-spacing:.08em;margin-bottom:3px;}
-.meter-bar{height:3px;background:var(--muted);}
-.meter-fill{height:100%;background:var(--accent);transition:width 1s ease;}
-.meter-fill.g{background:var(--green);}
-.meter-fill.b{background:var(--blue);}
-.meter-fill.y{background:var(--yellow);}
-.stat-row{display:flex;justify-content:space-between;font-size:.57rem;padding:.28rem 0;border-bottom:1px solid var(--border);color:var(--mid);}
-.stat-row .val{color:var(--fg);font-weight:700;}
-.stat-row .val.r{color:var(--accent);}
-.stat-row .val.g{color:var(--green);}
-#notifs{position:fixed;top:46px;right:1rem;z-index:9000;display:flex;flex-direction:column;gap:5px;max-width:250px;}
-.notif{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);padding:.45rem .65rem;font-size:.58rem;letter-spacing:.04em;animation:slidein .3s ease;color:var(--mid);}
+.ok{color:var(--green)!important;}
+.err{color:var(--accent)!important;}
+.warn{color:var(--yellow)!important;}
+.info{color:var(--blue)!important;}
+.prp{color:var(--purple)!important;}
+
+/* INPUTS */
+.fake-input{background:#000;border:1px solid var(--border);color:var(--mid);font-family:'Space Mono';font-size:.54rem;padding:.3rem .4rem;width:100%;outline:none;margin-bottom:4px;cursor:none;letter-spacing:.04em;}
+.fake-input:focus{border-color:var(--accent);color:var(--fg);}
+.fake-label{font-size:.48rem;color:var(--muted);letter-spacing:.1em;margin-bottom:2px;display:block;}
+.fake-select{background:#000;border:1px solid var(--border);color:var(--mid);font-family:'Space Mono';font-size:.52rem;padding:.28rem .35rem;width:100%;outline:none;cursor:none;margin-bottom:4px;appearance:none;letter-spacing:.04em;}
+.fake-textarea{background:#000;border:1px solid var(--border);color:var(--mid);font-family:'Space Mono';font-size:.5rem;padding:.3rem .4rem;width:100%;outline:none;margin-bottom:4px;cursor:none;resize:none;height:40px;letter-spacing:.03em;}
+
+/* TOGGLES */
+.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:.25rem 0;border-bottom:1px solid var(--border);font-size:.53rem;color:var(--mid);}
+.toggle{width:24px;height:12px;background:var(--muted);border-radius:6px;position:relative;cursor:none;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--green);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:8px;height:8px;background:var(--fg);border-radius:50%;transition:left .2s;}
+.toggle.on::after{left:14px;}
+
+/* CHARTS */
+.chart-wrap{width:100%;height:50px;background:#000;border:1px solid var(--border);margin-bottom:.4rem;overflow:hidden;}
+
+/* NOTIFICATIONS */
+#notifs{position:fixed;top:60px;right:.75rem;z-index:9000;display:flex;flex-direction:column;gap:4px;max-width:220px;}
+.notif{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);padding:.35rem .55rem;font-size:.54rem;letter-spacing:.04em;animation:slidein .25s ease;color:var(--mid);}
 .notif.g{border-left-color:var(--green);}
 .notif.b{border-left-color:var(--blue);}
 .notif.y{border-left-color:var(--yellow);}
-@keyframes slidein{from{opacity:0;transform:translateX(20px);}}
-#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:8000;align-items:center;justify-content:center;}
+.notif.p{border-left-color:var(--purple);}
+@keyframes slidein{from{opacity:0;transform:translateX(15px);}}
+
+/* MODAL */
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:8000;align-items:center;justify-content:center;}
 #modal-overlay.open{display:flex;}
-#modal{background:var(--panel);border:1px solid var(--border);padding:1.5rem;max-width:320px;width:90%;}
-#modal h2{font-family:'Bebas Neue';font-size:1.4rem;color:var(--accent);margin-bottom:.6rem;}
-#modal p{font-size:.62rem;color:var(--mid);line-height:1.7;margin-bottom:1rem;}
-#modal button{background:var(--accent);color:var(--bg);border:none;font-family:'Bebas Neue';font-size:1rem;padding:.4rem 1.2rem;cursor:none;}
-.fake-input{background:#000;border:1px solid var(--border);color:var(--mid);font-family:'Space Mono';font-size:.58rem;padding:.35rem .45rem;width:100%;outline:none;margin-bottom:5px;cursor:none;letter-spacing:.04em;}
-.fake-input:focus{border-color:var(--accent);color:var(--fg);}
-.fake-label{font-size:.52rem;color:var(--muted);letter-spacing:.12em;margin-bottom:2px;display:block;}
-.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.57rem;color:var(--mid);}
-.toggle{width:26px;height:13px;background:var(--muted);border-radius:7px;position:relative;cursor:none;transition:background .2s;flex-shrink:0;}
-.toggle.on{background:var(--green);}
-.toggle::after{content:'';position:absolute;top:2px;left:2px;width:9px;height:9px;background:var(--fg);border-radius:50%;transition:left .2s;}
-.toggle.on::after{left:15px;}
-.fake-select{background:#000;border:1px solid var(--border);color:var(--mid);font-family:'Space Mono';font-size:.57rem;padding:.3rem .4rem;width:100%;outline:none;cursor:none;margin-bottom:5px;appearance:none;letter-spacing:.04em;}
-#chart-area{width:100%;height:55px;background:#000;border:1px solid var(--border);margin-bottom:.4rem;}
-.section-label{font-size:.55rem;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;width:100%;max-width:340px;border-top:1px solid var(--border);padding-top:.65rem;margin-top:.3rem;}
-.hero-title{font-family:'Bebas Neue';font-size:clamp(2.8rem,7vw,5rem);line-height:.9;letter-spacing:.02em;text-align:center;width:100%;max-width:340px;}
-.hero-title span{color:var(--accent);display:block;}
-.hero-sub{font-size:.58rem;color:var(--muted);letter-spacing:.2em;font-style:italic;}
-#result{font-size:.62rem;color:var(--mid);letter-spacing:.08em;min-height:1rem;text-align:center;width:100%;max-width:340px;transition:color .3s;}
-#result.active{color:var(--accent);}
-.prog-wrap{width:100%;max-width:340px;}
-.prog-track{height:2px;background:var(--muted);width:100%;}
-.prog-fill{height:100%;background:var(--accent);width:0%;transition:width 2.5s cubic-bezier(.4,0,.2,1);}
-.prog-info{display:flex;justify-content:space-between;font-size:.5rem;color:var(--muted);margin-top:3px;letter-spacing:.08em;}
-.corner{position:fixed;font-size:.48rem;color:var(--muted);font-style:italic;letter-spacing:.12em;z-index:500;}
-.corner.tl{top:42px;left:8px;}
-.corner.br{bottom:6px;right:8px;}
+#modal{background:var(--panel);border:1px solid var(--border);padding:1.3rem;max-width:300px;width:90%;}
+#modal h2{font-family:'Bebas Neue';font-size:1.3rem;color:var(--accent);margin-bottom:.5rem;}
+#modal p{font-size:.58rem;color:var(--mid);line-height:1.7;margin-bottom:.85rem;}
+#modal button{background:var(--accent);color:var(--bg);border:none;font-family:'Bebas Neue';font-size:.9rem;padding:.35rem 1rem;cursor:none;}
+
+/* TICKER */
+#ticker{position:fixed;bottom:0;left:0;right:0;height:22px;background:var(--panel);border-top:1px solid var(--border);overflow:hidden;z-index:1000;display:flex;align-items:center;}
+.ticker-inner{display:flex;gap:3rem;animation:ticker 25s linear infinite;white-space:nowrap;font-size:.5rem;letter-spacing:.1em;color:var(--muted);}
+.ticker-inner span{color:var(--mid);}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* CORNER */
+.corner{position:fixed;font-size:.44rem;color:var(--muted);font-style:italic;letter-spacing:.1em;z-index:500;}
+.corner.tl{top:58px;left:5px;}
+.corner.tr{top:58px;right:5px;}
+
+/* ANIMATIONS */
 @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-5px) rotate(-.5deg);}40%{transform:translateX(5px) rotate(.5deg);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
-.shake{animation:shake .35s ease;}
-::-webkit-scrollbar{width:3px;}
+.shake{animation:shake .3s ease;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.blink{animation:blink 1s step-start infinite;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:2px;}
 ::-webkit-scrollbar-thumb{background:var(--muted);}
+
+/* GRID EXTRAS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:4px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:4px;}
+
+/* PIE-ISH thing */
+.fake-pie{width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--accent) 0% 33%,var(--green) 33% 58%,var(--blue) 58% 75%,var(--yellow) 75% 100%);margin:.4rem auto;transition:background 1s;}
+
+/* TABLE */
+.fake-table{width:100%;border-collapse:collapse;font-size:.5rem;margin-bottom:.4rem;}
+.fake-table th{color:var(--muted);letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border);padding:.2rem .3rem;text-align:left;font-weight:400;}
+.fake-table td{color:var(--mid);padding:.18rem .3rem;border-bottom:1px solid #141414;}
+.fake-table td.v{color:var(--fg);}
+.fake-table tr:hover td{background:#111;}
 </style>
 </head>
 <body>
 <div id="cursor"></div>
 <div id="notifs"></div>
-<div class="corner tl">v3.0.0-nutteloos</div>
-<div class="corner br">© niemand — alle rechten voorbehouden aan de leegte</div>
+<div class="corner tl">v4.0.0-ultra-nutteloos-edition</div>
+<div class="corner tr">© niemand ooit</div>
 
+<!-- MODAL -->
 <div id="modal-overlay">
   <div id="modal">
-    <h2 id="modal-title">Bevestiging</h2>
-    <p id="modal-body">Dit doet niks.</p>
-    <button onclick="closeModal()">Begrepen (doet niks)</button>
+    <h2 id="modal-title">?</h2>
+    <p id="modal-body">.</p>
+    <button onclick="closeModal()">OK (doet niks)</button>
   </div>
 </div>
 
+<!-- TOPBAR -->
 <div id="topbar">
   <span class="logo">NIKSOS</span>
   <span class="nav-item">Bestand</span>
   <span class="nav-item">Bewerken</span>
+  <span class="nav-item">Weergave</span>
   <span class="nav-item">Niks</span>
   <span class="nav-item">Meer Niks</span>
+  <span class="nav-item">Geavanceerd Niks</span>
+  <span class="nav-item">Hulpprogramma's</span>
+  <span class="nav-item">Venster</span>
   <span class="nav-item">Help</span>
   <span class="spacer"></span>
-  <span id="status-text">klaar voor niks</span>
-  &nbsp;|&nbsp;
-  <span id="clock">00:00:00</span>
+  <span class="topstat">CPU: <span id="tb-cpu">?</span></span>
+  <span class="topstat">MEM: <span id="tb-mem">?</span></span>
+  <span class="topstat">NIX: <span id="tb-nix">?</span></span>
+  <span class="topstat" id="status-text">klaar</span>
+  <span id="clock">--:--:--</span>
+</div>
+
+<!-- SECOND BAR -->
+<div id="secondbar">
+  <span class="sbar-item">Niks-index: <span id="sb1" style="color:var(--accent)">?</span></span>
+  <span class="sbar-item">Leegte-koers: <span id="sb2" style="color:var(--green)">?</span></span>
+  <span class="sbar-item">Zinloosheid: <span id="sb3" style="color:var(--yellow)">?</span></span>
+  <span class="sbar-item">Niks/s: <span id="sb4" style="color:var(--blue)">?</span></span>
+  <span class="sbar-item">Uptime: <span id="sb5" style="color:var(--mid)">?</span></span>
+  <span class="sbar-item">Temp: <span id="sb6" style="color:var(--mid)">?</span></span>
+  <span class="sbar-item">Pakketjes: <span id="sb7" style="color:var(--purple)">?</span></span>
+  <span class="sbar-item">Fouten: <span id="sb8" style="color:var(--accent)">?</span></span>
+  <span class="sbar-item">Leegte-%: <span id="sb9" style="color:var(--mid)">?</span></span>
+  <span class="sbar-item blink" style="color:var(--accent);font-size:.5rem;">● LIVE</span>
 </div>
 
 <div id="main">
 
-  <!-- LEFT -->
-  <div class="panel" style="grid-column:1;grid-row:1/4;">
-    <div class="panel-title">Systeem <span class="badge">LIVE</span></div>
-    <div class="meter"><div class="meter-label"><span>Niks-gebruik</span><span id="m1v">0%</span></div><div class="meter-bar"><div class="meter-fill" id="m1" style="width:0%"></div></div></div>
-    <div class="meter"><div class="meter-label"><span>Leegte-RAM</span><span id="m2v">0%</span></div><div class="meter-bar"><div class="meter-fill b" id="m2" style="width:0%"></div></div></div>
-    <div class="meter"><div class="meter-label"><span>Zinloosheid</span><span id="m3v">0%</span></div><div class="meter-bar"><div class="meter-fill g" id="m3" style="width:0%"></div></div></div>
-    <div class="meter"><div class="meter-label"><span>Verwachting</span><span id="m4v">0%</span></div><div class="meter-bar"><div class="meter-fill y" id="m4" style="width:0%"></div></div></div>
+<!-- COL 1: SYSTEEM -->
+<div class="panel" style="grid-column:1;">
+  <div class="pt">Systeem <span class="badge">LIVE</span></div>
+  <div class="meter"><div class="ml"><span>Niks-gebruik</span><span id="m1v">?</span></div><div class="mb"><div class="mf" id="m1"></div></div></div>
+  <div class="meter"><div class="ml"><span>Leegte-RAM</span><span id="m2v">?</span></div><div class="mb"><div class="mf b" id="m2"></div></div></div>
+  <div class="meter"><div class="ml"><span>Zinloosheid</span><span id="m3v">?</span></div><div class="mb"><div class="mf g" id="m3"></div></div></div>
+  <div class="meter"><div class="ml"><span>Verwachting</span><span id="m4v">?</span></div><div class="mb"><div class="mf y" id="m4"></div></div></div>
+  <div class="meter"><div class="ml"><span>Niks-druk</span><span id="m5v">?</span></div><div class="mb"><div class="mf p" id="m5"></div></div></div>
+  <div class="meter"><div class="ml"><span>Leegte-flux</span><span id="m6v">?</span></div><div class="mb"><div class="mf" id="m6"></div></div></div>
+  <div class="meter"><div class="ml"><span>Entropie</span><span id="m7v">?</span></div><div class="mb"><div class="mf b" id="m7"></div></div></div>
 
-    <div class="panel-title" style="margin-top:.8rem;">Statistieken</div>
-    <div class="stat-row"><span>Klikken</span><span class="val" id="stat-clicks">0</span></div>
-    <div class="stat-row"><span>Resultaten</span><span class="val r">0</span></div>
-    <div class="stat-row"><span>Opgeslagen</span><span class="val g">niks</span></div>
-    <div class="stat-row"><span>Uptime</span><span class="val" id="stat-uptime">0s</span></div>
-    <div class="stat-row"><span>Versie</span><span class="val">∅.∅.∅</span></div>
-    <div class="stat-row"><span>Temp</span><span class="val" id="stat-temp">--°C</span></div>
-    <div class="stat-row"><span>Nuttigheid</span><span class="val r">FOUT</span></div>
-    <div class="stat-row"><span>Niks-score</span><span class="val" id="stat-score">0</span></div>
+  <div class="pt" style="margin-top:.6rem;">Statistieken</div>
+  <div class="sr"><span>Klikken</span><span class="v" id="sc1">?</span></div>
+  <div class="sr"><span>Resultaten</span><span class="v r" id="sc2">?</span></div>
+  <div class="sr"><span>Opgeslagen</span><span class="v g">niks</span></div>
+  <div class="sr"><span>Uptime</span><span class="v" id="sc3">?</span></div>
+  <div class="sr"><span>Versie</span><span class="v p">?</span></div>
+  <div class="sr"><span>Temp</span><span class="v y" id="sc4">?</span></div>
+  <div class="sr"><span>Nuttigheid</span><span class="v r">FOUT</span></div>
+  <div class="sr"><span>Niks-score</span><span class="v" id="sc5">?</span></div>
+  <div class="sr"><span>Verlies</span><span class="v r" id="sc6">?</span></div>
+  <div class="sr"><span>Niks-ratio</span><span class="v b" id="sc7">?</span></div>
+  <div class="sr"><span>Clusters</span><span class="v p" id="sc8">?</span></div>
+  <div class="sr"><span>IQ app</span><span class="v r">?</span></div>
 
-    <div class="panel-title" style="margin-top:.8rem;">Instellingen</div>
-    <div class="toggle-row"><span>Donkere leegte</span><div class="toggle on" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Auto-niks</span><div class="toggle" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Geavanceerd niks</span><div class="toggle on" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Sync met leegte</span><div class="toggle" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Niks v2 (beta)</span><div class="toggle" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Meldingen</span><div class="toggle on" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Turbo-niks</span><div class="toggle" onclick="tog(this)"></div></div>
-    <div class="toggle-row"><span>Eco-niks</span><div class="toggle on" onclick="tog(this)"></div></div>
+  <div class="pt" style="margin-top:.6rem;">Grafiek A</div>
+  <div class="chart-wrap"><canvas id="chartA"></canvas></div>
+  <div class="pt">Grafiek B</div>
+  <div class="chart-wrap"><canvas id="chartB"></canvas></div>
 
-    <div class="panel-title" style="margin-top:.8rem;">Grafiek (willekeurig)</div>
-    <div id="chart-area"><canvas id="chart" width="200" height="55"></canvas></div>
+  <div class="pt" style="margin-top:.6rem;">Taartdiagram (niks)</div>
+  <div class="fake-pie" id="pie"></div>
+  <div style="font-size:.44rem;color:var(--muted);text-align:center;letter-spacing:.08em;">verdeling van niks</div>
 
-    <div class="panel-title" style="margin-top:.8rem;">Zoeken</div>
-    <input class="fake-input" placeholder="zoek naar niks..." oninput="logMsg('info','Zoekopdracht: geen resultaten.')">
-    <button class="fn-btn" style="width:100%;" onclick="notify('Gevonden: 0 resultaten.','b')">🔍 Zoeken</button>
+  <div class="pt" style="margin-top:.6rem;">Verbindingen</div>
+  <div class="sr"><span>Niks-server</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Leegte-API</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Nuttigheid</span><span class="v r">● uit</span></div>
+  <div class="sr"><span>Niks-cloud</span><span class="v y">● wacht</span></div>
+  <div class="sr"><span>niks.db</span><span class="v g">● leeg</span></div>
+  <div class="sr"><span>niksVPN</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Niks-CDN</span><span class="v b">● sync</span></div>
+  <div class="sr"><span>Niks-DNS</span><span class="v r">● fout</span></div>
+</div>
+
+<!-- COL 2: INSTELLINGEN + WACHTRIJ -->
+<div class="panel panel2" style="grid-column:2;">
+  <div class="pt">Instellingen <span class="badge p">32</span></div>
+  <div class="toggle-row"><span>Donkere leegte</span><div class="toggle on" onclick="tog(this,'Donkere leegte')"></div></div>
+  <div class="toggle-row"><span>Auto-niks</span><div class="toggle" onclick="tog(this,'Auto-niks')"></div></div>
+  <div class="toggle-row"><span>Geavanceerd niks</span><div class="toggle on" onclick="tog(this,'Geavanceerd niks')"></div></div>
+  <div class="toggle-row"><span>Sync met leegte</span><div class="toggle" onclick="tog(this,'Sync')"></div></div>
+  <div class="toggle-row"><span>Niks v2 (beta)</span><div class="toggle" onclick="tog(this,'Niks v2')"></div></div>
+  <div class="toggle-row"><span>Meldingen</span><div class="toggle on" onclick="tog(this,'Meldingen')"></div></div>
+  <div class="toggle-row"><span>Turbo-niks</span><div class="toggle" onclick="tog(this,'Turbo-niks')"></div></div>
+  <div class="toggle-row"><span>Eco-niks</span><div class="toggle on" onclick="tog(this,'Eco-niks')"></div></div>
+  <div class="toggle-row"><span>Niks comprimeren</span><div class="toggle" onclick="tog(this,'Compressie')"></div></div>
+  <div class="toggle-row"><span>Parallelle leegte</span><div class="toggle on" onclick="tog(this,'Parallel')"></div></div>
+  <div class="toggle-row"><span>Niks encrypteren</span><div class="toggle" onclick="tog(this,'Encryptie')"></div></div>
+  <div class="toggle-row"><span>Nacht-niks</span><div class="toggle" onclick="tog(this,'Nacht-niks')"></div></div>
+  <div class="toggle-row"><span>AI-niks (beta)</span><div class="toggle on" onclick="tog(this,'AI-niks')"></div></div>
+  <div class="toggle-row"><span>Niks-telemetrie</span><div class="toggle" onclick="tog(this,'Telemetrie')"></div></div>
+  <div class="toggle-row"><span>Quantum-niks</span><div class="toggle on" onclick="tog(this,'Quantum')"></div></div>
+  <div class="toggle-row"><span>Niks auto-update</span><div class="toggle" onclick="tog(this,'Auto-update')"></div></div>
+
+  <div class="pt" style="margin-top:.6rem;">Filters</div>
+  <select class="fake-select" onchange="logMsg('info','Filter: doet niks.')"><option>Alle niks</option><option>Alleen leeg niks</option><option>Premium niks</option><option>Gearchiveerd niks</option><option>Verwijderd niks</option><option>Niks van gisteren</option></select>
+  <select class="fake-select" onchange="logMsg('warn','Sortering gewijzigd: niks.')"><option>Sorteren op: niks</option><option>Nieuwste niks eerst</option><option>Oudste niks eerst</option><option>Willekeurig</option></select>
+  <select class="fake-select" onchange="logMsg('info','Groepering: niks.')"><option>Groeperen op: niks</option><option>Op datum</option><option>Op type niks</option><option>Op nutteloosheid</option></select>
+
+  <div class="pt" style="margin-top:.6rem;">Wachtrij <span class="badge" id="q-badge">0</span></div>
+  <div id="queue-list" style="font-size:.53rem;color:var(--muted);min-height:40px;"><div style="color:var(--border);font-style:italic;">— leeg —</div></div>
+
+  <div class="pt" style="margin-top:.6rem;">Taaklist</div>
+  <div id="task-list" style="font-size:.53rem;">
+    <div class="sr"><span>Niks afronden</span><span class="v y">⏳</span></div>
+    <div class="sr"><span>Meer niks plannen</span><span style="color:var(--muted);">—</span></div>
+    <div class="sr"><span>Niks evalueren</span><span style="color:var(--muted);">—</span></div>
+  </div>
+  <div class="two-col" style="margin-top:4px;">
+    <button class="fn-btn" onclick="addTask()">+ Taak</button>
+    <button class="fn-btn" onclick="clearTasks()">✕ Leegm.</button>
   </div>
 
-  <!-- CENTER -->
-  <div id="center">
-    <p style="font-size:.55rem;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;">professioneel niets dashboard</p>
-    <div class="hero-title">NIKS<span>OS 3.0</span></div>
-    <p class="hero-sub">— enterprise editie —</p>
+  <div class="pt" style="margin-top:.6rem;">Agenda (doet niks)</div>
+  <div style="font-size:.52rem;color:var(--muted);">
+    <div class="sr"><span>Ma</span><span class="v">Niks 09:00</span></div>
+    <div class="sr"><span>Di</span><span class="v">Meer niks</span></div>
+    <div class="sr"><span>Wo</span><span class="v r">KRITIEK niks</span></div>
+    <div class="sr"><span>Do</span><span class="v">Niks review</span></div>
+    <div class="sr"><span>Vr</span><span class="v g">Vrij niks</span></div>
+  </div>
+  <button class="wide-btn" onclick="notify('Vergadering gepland: onderwerp niks.','y')">📅 Plan vergadering</button>
 
-    <button class="hero-btn" id="mainBtn" onclick="doNiks()">▶ DOE NIKS</button>
-    <p id="result">gereed. wachtend op niks.</p>
-    <div class="prog-wrap">
-      <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
-      <div class="prog-info"><span id="prog-label">niks-voortgang</span><span id="prog-pct">0%</span></div>
-    </div>
+  <div class="pt" style="margin-top:.6rem;">Notities</div>
+  <textarea class="fake-textarea" placeholder="schrijf hier niks..." oninput="logMsg('info','Notitie: doet niks.')"></textarea>
+  <button class="wide-btn" onclick="logMsg('ok','Notitie opgeslagen: 0 woorden.')">💾 Sla notitie op</button>
+</div>
 
-    <div class="section-label">Snelle acties (doen allemaal niks)</div>
-    <div class="fn-grid" id="fn-grid"></div>
+<!-- COL 3: CENTER -->
+<div id="center">
+  <p style="font-size:.5rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;">professioneel niets dashboard — ultra editie</p>
+  <div class="hero-title">NIKS<span>OS 4.0</span></div>
+  <p class="hero-sub">— enterprise ultra max pro editie —</p>
 
-    <div class="section-label">Formulier (doet niks)</div>
-    <div style="width:100%;max-width:340px;">
-      <span class="fake-label">Naam van het niks</span>
-      <input class="fake-input" placeholder="bijv. 'groot niks'" oninput="logMsg('info','Invoer: doet niks.')">
-      <span class="fake-label">Type niks</span>
-      <select class="fake-select" onchange="logMsg('warn','Type gewijzigd. Resultaat: niks.')">
-        <option>Standaard niks</option><option>Premium niks</option><option>Enterprise niks</option>
-        <option>Quantum niks</option><option>Artisanaal niks</option><option>Niks Pro Max Ultra</option>
-      </select>
-      <span class="fake-label">Prioriteit</span>
-      <select class="fake-select" onchange="logMsg('warn','Prioriteit: maakt toch niks uit.')">
-        <option>Laag (niks)</option><option>Medium (ook niks)</option>
-        <option>Hoog (alsnog niks)</option><option>KRITIEK (niks niks niks)</option>
-      </select>
-      <span class="fake-label">Omschrijving</span>
-      <input class="fake-input" placeholder="omschrijf het niks..." oninput="logMsg('info','Omschrijving: wordt genegeerd.')">
-      <button class="fn-btn" style="width:100%;padding:.55rem;" onclick="submitForm()">📨 VERSTUUR FORMULIER</button>
-    </div>
+  <button class="hero-btn" id="mainBtn" onclick="doNiks()">▶ DOE NIKS</button>
+  <p id="result">gereed. wachtend op niks.</p>
+  <div class="prog-wrap">
+    <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+    <div class="prog-info"><span id="prog-label">niks-voortgang</span><span id="prog-pct">?</span></div>
+  </div>
 
-    <div class="section-label">Activiteitenlog</div>
-    <div id="log">
-      <div class="ll info">[00:00:00] NiksOS 3.0 gestart.</div>
-      <div class="ll ok">[00:00:00] Alle systemen operationeel.</div>
-      <div class="ll warn">[00:00:00] Waarschuwing: geen nuttige functies gevonden.</div>
-      <div class="ll err">[00:00:00] Fout: doel ontbreekt. Doorgaan? Ja.</div>
+  <div class="section-label">Snelkoppelingen (doen allemaal niks)</div>
+  <div class="fn-grid" id="fn-grid"></div>
+
+  <div class="section-label">Formulier (doet niks)</div>
+  <div style="width:100%;max-width:320px;">
+    <span class="fake-label">Naam van het niks</span>
+    <input class="fake-input" placeholder="bijv. 'extreem niks'" oninput="logMsg('info','Invoer gewijzigd: niks.')">
+    <span class="fake-label">Type niks</span>
+    <select class="fake-select" onchange="logMsg('warn','Type: niks.')"><option>Standaard niks</option><option>Premium niks</option><option>Enterprise niks</option><option>Quantum niks</option><option>Artisanaal niks</option><option>Niks Pro Max Ultra</option><option>Biologisch niks</option><option>Fairtrade niks</option></select>
+    <span class="fake-label">Prioriteit</span>
+    <select class="fake-select" onchange="logMsg('warn','Prioriteit: maakt toch niks uit.')"><option>Laag (niks)</option><option>Medium (ook niks)</option><option>Hoog (alsnog niks)</option><option>KRITIEK (niks³)</option><option>COSMISCH NIKS</option></select>
+    <span class="fake-label">Toegewezen aan</span>
+    <select class="fake-select" onchange="logMsg('info','Toegewezen: niemand geïnformeerd.')"><option>Niemand</option><option>Iemand anders</option><option>De leegte</option><option>∅</option></select>
+    <span class="fake-label">Omschrijving</span>
+    <textarea class="fake-textarea" placeholder="beschrijf het niks uitgebreid..." oninput="logMsg('info','Omschrijving: wordt genegeerd.')"></textarea>
+    <div class="two-col">
+      <button class="fn-btn" style="padding:.4rem;" onclick="submitForm()">📨 Verstuur</button>
+      <button class="fn-btn" style="padding:.4rem;" onclick="logMsg('warn','Concept opgeslagen: 0 bytes.')">📝 Concept</button>
     </div>
   </div>
 
-  <!-- RIGHT -->
-  <div class="panel" style="grid-column:3;grid-row:1/4;">
-    <div class="panel-title">Wachtrij <span class="badge" id="q-badge">0</span></div>
-    <div id="queue-list" style="font-size:.57rem;color:var(--muted);min-height:50px;"><div style="color:var(--border);font-style:italic;">— leeg —</div></div>
+  <div class="section-label">Tabel (willekeurige onzin)</div>
+  <table class="fake-table" id="fake-table" style="max-width:320px;width:100%;"></table>
 
-    <div class="panel-title" style="margin-top:.8rem;">Recente niks</div>
-    <div id="recent-list" style="font-size:.57rem;">
-      <div class="stat-row"><span>niks</span><span style="color:var(--green);">✓</span></div>
-      <div class="stat-row"><span>niks</span><span style="color:var(--green);">✓</span></div>
-    </div>
-
-    <div class="panel-title" style="margin-top:.8rem;">Verbindingen</div>
-    <div style="font-size:.57rem;">
-      <div class="stat-row"><span>Niks-server</span><span style="color:var(--green);">● online</span></div>
-      <div class="stat-row"><span>Leegte-API</span><span style="color:var(--green);">● verbonden</span></div>
-      <div class="stat-row"><span>Nuttigheid</span><span style="color:var(--accent);">● offline</span></div>
-      <div class="stat-row"><span>Niks-cloud</span><span style="color:var(--yellow);">● pending</span></div>
-      <div class="stat-row"><span>niks.db</span><span style="color:var(--green);">● leeg</span></div>
-      <div class="stat-row"><span>VPN (niksVPN)</span><span style="color:var(--green);">● actief</span></div>
-    </div>
-
-    <div class="panel-title" style="margin-top:.8rem;">Meldingen</div>
-    <div id="notif-log" style="font-size:.56rem;color:var(--muted);max-height:100px;overflow-y:auto;"><div>Geen meldingen.</div></div>
-
-    <div class="panel-title" style="margin-top:.8rem;">Exporteer niks</div>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('CSV')">📄 Export CSV</button>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('PDF')">📋 Export PDF</button>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('JSON')">{ } Export JSON</button>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('XML')">📝 Export XML</button>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('NIKS')">∅ Export NIKS</button>
-    <button class="fn-btn" style="width:100%;margin-bottom:3px;" onclick="exp('DOCX')">📃 Export DOCX</button>
-
-    <div class="panel-title" style="margin-top:.8rem;">Abonnement</div>
-    <div style="font-size:.57rem;">
-      <div class="stat-row"><span>Plan</span><span class="val">Niks Gratis</span></div>
-      <div class="stat-row"><span>Niks/maand</span><span class="val">∞</span></div>
-      <div class="stat-row"><span>Opslag</span><span class="val">0 bytes</span></div>
-    </div>
-    <button class="fn-btn" style="width:100%;margin-top:5px;" onclick="upgrade()">⬆ Upgrade naar Niks Pro</button>
-
-    <div class="panel-title" style="margin-top:.8rem;">Taaklist</div>
-    <div id="task-list" style="font-size:.57rem;">
-      <div class="stat-row"><span>Niks afronden</span><span style="color:var(--yellow);">⏳</span></div>
-      <div class="stat-row"><span>Meer niks plannen</span><span style="color:var(--muted);">—</span></div>
-      <div class="stat-row"><span>Niks evalueren</span><span style="color:var(--muted);">—</span></div>
-    </div>
-    <button class="fn-btn" style="width:100%;margin-top:4px;" onclick="addTask()">+ Taak toevoegen</button>
+  <div class="section-label">Activiteitenlog</div>
+  <div id="log">
+    <div class="ll info">[boot] NiksOS 4.0 Ultra gestart.</div>
+    <div class="ll ok">[boot] Alle systemen: operationeel (soort van).</div>
+    <div class="ll warn">[boot] Waarschuwing: geen enkel nuttig doel gevonden.</div>
+    <div class="ll err">[boot] Fout 0x00000000: niks te melden.</div>
+    <div class="ll prp">[boot] Quantum-niks geïnitialiseerd.</div>
   </div>
+</div>
+
+<!-- COL 4: ACTIES + EXPORT -->
+<div class="panel" style="grid-column:4;">
+  <div class="pt">Acties <span class="badge g">∞</span></div>
+  <button class="wide-btn" onclick="wbtn('Vernieuwen',()=>{logMsg('info','Vernieuwen: 0 wijzigingen.');notify('Vernieuwd: niks.','b');})">🔄 Vernieuwen</button>
+  <button class="wide-btn" onclick="wbtn('Opslaan',()=>{logMsg('ok','Opgeslagen: 0 bytes.');notify('Opgeslagen: niks.','g');addQueue('opslaan');})">💾 Opslaan</button>
+  <button class="wide-btn" onclick="wbtn('Opslaan als',()=>{logMsg('ok','Opgeslagen als: niks.niks');notify('Bestand: niks.niks','g');})">💾 Opslaan als...</button>
+  <button class="wide-btn" onclick="wbtn('Verwijderen',()=>{logMsg('err','Niks te verwijderen.');notify('Fout: niks gevonden.');})">🗑️ Verwijderen</button>
+  <button class="wide-btn" onclick="wbtn('Herstellen',()=>{logMsg('warn','Hersteld: niks.');notify('Teruggedraaid: 0 stappen.','y');})">↩️ Herstellen</button>
+  <button class="wide-btn" onclick="wbtn('Kopiëren',()=>{logMsg('ok','Gekopieerd: niks.');notify('Klembord: leeg.','g');})">📋 Kopiëren</button>
+  <button class="wide-btn" onclick="wbtn('Plakken',()=>{logMsg('warn','Geplakt: niks (klembord leeg).');})">📌 Plakken</button>
+  <button class="wide-btn" onclick="wbtn('Knippen',()=>{logMsg('ok','Geknipt: niks.');})">✂️ Knippen</button>
+  <button class="wide-btn" onclick="wbtn('Dupliceren',()=>{logMsg('ok','Duplicaat: niks van niks.');notify('Gedupliceerd: ∅ × 2 = ∅','g');})">📑 Dupliceren</button>
+  <button class="wide-btn" onclick="wbtn('Samenvoegen',()=>{logMsg('info','Samengevoegd: niks + niks = niks.');})">🔗 Samenvoegen</button>
+  <button class="wide-btn" onclick="wbtn('Splitsen',()=>{logMsg('warn','Gesplitst: niks / niks = niks.');})">✂️ Splitsen</button>
+  <button class="wide-btn" onclick="wbtn('Valideren',()=>{logMsg('ok','Validatie geslaagd: 0 fouten, 0 waarschuwingen, 0 punten.');notify('Geldig: volledig niks.','g');})">✅ Valideren</button>
+  <button class="wide-btn" onclick="wbtn('Compileren',()=>{logMsg('info','Compilatie: 0 regels code, 0 objecten.');notify('Build: niks.exe (0 bytes)','b');addQueue('compileren');})">⚙️ Compileren</button>
+  <button class="wide-btn" onclick="wbtn('Deployen',()=>{logMsg('err','Deploy mislukt: niks om te deployen.');notify('Deploy: geannuleerd.');})">🚀 Deployen</button>
+  <button class="wide-btn" onclick="wbtn('Testen',()=>{logMsg('ok','Tests: 0 geslaagd, 0 mislukt, 0 overgeslagen.');notify('Testresultaat: niks.','g');})">🧪 Testen</button>
+  <button class="wide-btn" onclick="wbtn('Debuggen',()=>{logMsg('warn','Debug: geen bugs (er is ook niks).');})">🐛 Debuggen</button>
+
+  <div class="pt" style="margin-top:.6rem;">Export <span class="badge b">8</span></div>
+  <button class="wide-btn" onclick="exp('CSV')">📄 Export CSV</button>
+  <button class="wide-btn" onclick="exp('PDF')">📋 Export PDF</button>
+  <button class="wide-btn" onclick="exp('JSON')">{ } Export JSON</button>
+  <button class="wide-btn" onclick="exp('XML')">📝 Export XML</button>
+  <button class="wide-btn" onclick="exp('NIKS')">∅ Export NIKS</button>
+  <button class="wide-btn" onclick="exp('DOCX')">📃 Export DOCX</button>
+  <button class="wide-btn" onclick="exp('XLSX')">📊 Export XLSX</button>
+  <button class="wide-btn" onclick="exp('NFT')">🎨 Export NFT</button>
+
+  <div class="pt" style="margin-top:.6rem;">Abonnement</div>
+  <div class="sr"><span>Plan</span><span class="v p">Niks Gratis</span></div>
+  <div class="sr"><span>Niks/maand</span><span class="v">∞</span></div>
+  <div class="sr"><span>Opslag</span><span class="v r" id="opslag">?</span></div>
+  <div class="sr"><span>Gebruikers</span><span class="v">0</span></div>
+  <button class="wide-btn" style="margin-top:4px;" onclick="upgrade()">⬆ Upgrade Niks Pro</button>
+  <button class="wide-btn" onclick="showModal('Factuur','Totaalbedrag: €0,00. Omschrijving: niks. BTW: 0%. Bedankt voor uw aankoop van niks.')">🧾 Factuur</button>
+</div>
+
+<!-- COL 5: ANALYSE + MELDINGEN -->
+<div class="panel panel2" style="grid-column:5;">
+  <div class="pt">Analyse <span class="badge y">AI</span></div>
+  <button class="wide-btn" onclick="analyse('Trend')">📈 Trend-analyse</button>
+  <button class="wide-btn" onclick="analyse('Voorspelling')">🔮 Voorspelling</button>
+  <button class="wide-btn" onclick="analyse('Benchmark')">⚡ Benchmark</button>
+  <button class="wide-btn" onclick="analyse('Correlatie')">🔗 Correlatie</button>
+  <button class="wide-btn" onclick="analyse('Regressie')">📉 Regressie</button>
+  <button class="wide-btn" onclick="analyse('Clustering')">🫧 Clustering</button>
+  <button class="wide-btn" onclick="analyse('Anomalie')">⚠️ Anomalie</button>
+  <button class="wide-btn" onclick="analyse('Sentiment')">💬 Sentiment</button>
+
+  <div class="pt" style="margin-top:.6rem;">Recente niks <span class="badge g" id="rec-badge">0</span></div>
+  <div id="recent-list" style="font-size:.52rem;max-height:120px;overflow-y:auto;">
+    <div class="sr"><span>niks</span><span class="v g">✓</span></div>
+  </div>
+
+  <div class="pt" style="margin-top:.6rem;">Meldingen <span class="badge" id="notif-badge">0</span></div>
+  <div id="notif-log" style="font-size:.52rem;color:var(--muted);max-height:100px;overflow-y:auto;"><div>Geen meldingen.</div></div>
+  <button class="wide-btn" style="margin-top:3px;" onclick="document.getElementById('notif-log').innerHTML='<div>Leeggemaakt.</div>';logMsg('ok','Meldingen gewist.')">🧹 Wis meldingen</button>
+
+  <div class="pt" style="margin-top:.6rem;">Zoeken</div>
+  <input class="fake-input" placeholder="zoek naar niks..." oninput="logMsg('info','Zoeken: 0 resultaten.')">
+  <button class="wide-btn" onclick="notify('Gezocht. Gevonden: niks.','b')">🔍 Zoeken</button>
+  <button class="wide-btn" onclick="logMsg('info','Geavanceerd zoeken: ook niks.')">🔬 Geavanceerd zoeken</button>
+
+  <div class="pt" style="margin-top:.6rem;">Delen</div>
+  <button class="wide-btn" onclick="notify('Gedeeld met: niemand.','b')">🔗 Link kopiëren</button>
+  <button class="wide-btn" onclick="notify('E-mail verstuurd naar: niks@niks.nl','b')">📧 Per e-mail</button>
+  <button class="wide-btn" onclick="notify('Afgedrukt: 0 paginas.','y')">🖨️ Afdrukken</button>
+  <button class="wide-btn" onclick="notify('QR-code: leeg.','g')">📱 QR-code</button>
+
+  <div class="pt" style="margin-top:.6rem;">Integraties</div>
+  <div class="sr"><span>Slack</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Teams</span><span class="v r">● uit</span></div>
+  <div class="sr"><span>Jira</span><span class="v y">● wacht</span></div>
+  <div class="sr"><span>GitHub</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Notion</span><span class="v b">● sync</span></div>
+  <div class="sr"><span>Zapier</span><span class="v r">● fout</span></div>
+  <button class="wide-btn" style="margin-top:3px;" onclick="notify('Integratie gesynchroniseerd: niks.','b')">🔄 Sync integraties</button>
+
+  <div class="pt" style="margin-top:.6rem;">Beveiliging</div>
+  <div class="sr"><span>2FA</span><span class="v g">● aan</span></div>
+  <div class="sr"><span>Encryptie</span><span class="v g">AES-∅</span></div>
+  <div class="sr"><span>Last login</span><span class="v p" id="last-login">?</span></div>
+  <button class="wide-btn" style="margin-top:3px;" onclick="showModal('Beveiligingsrapport','Geen bedreigingen gevonden. Reden: er valt niks te stelen. Beveiligingsscore: ∅/10.')">🔐 Rapport</button>
+</div>
 
 </div>
 
+<!-- TICKER -->
+<div id="ticker">
+  <div class="ticker-inner" id="ticker-inner"></div>
+</div>
+
 <script>
-// Cursor
+// ═══ CURSOR ═══
 const cur=document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
 
-// Clock
+// ═══ RANDOM NUMBERS (absurd) ═══
+const units=['KB','MB','GB','TB','PB','EB','ZB','YB','∅B'];
+const absurdUnits=['niks','∅','???','leegte','∞','−∞','NaN','Inf','−7','π²','e^∅'];
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function absurdNum(){
+  const r=Math.random();
+  if(r<.15) return absurdUnits[rnd(0,absurdUnits.length-1)];
+  if(r<.25) return '-'+rnd(1,999999);
+  if(r<.35) return rnd(0,9)+'.'+rnd(10,99)+'e'+rnd(2,99);
+  if(r<.40) return '0x'+Math.floor(Math.random()*0xFFFF).toString(16).toUpperCase();
+  if(r<.45) return rnd(0,1)+'.'+rnd(0,9999999);
+  if(r<.50) return rnd(100000,9999999999);
+  return rnd(0,999);
+}
+function absurdSize(){return absurdNum()+' '+units[rnd(0,units.length-1)];}
+function absurdPct(){const r=Math.random();if(r<.2)return rnd(100,99999)+'%';if(r<.35)return '-'+rnd(1,999)+'%';return rnd(0,100)+'%';}
+function absurdTemp(){const r=Math.random();if(r<.15)return '-'+rnd(100,9999)+'°C';if(r<.25)return rnd(1000,999999)+'°C';return rnd(-50,200)+'°C';}
+function absurdTime(){return rnd(0,9999)+'d '+rnd(0,9999)+'h '+rnd(0,9999)+'m '+rnd(0,9999)+'s';}
+function absurdVer(){return 'v'+rnd(0,999)+'.'+rnd(0,9999)+'.'+rnd(0,99999)+'-'+['alpha','NOPE','???','void','∅'][rnd(0,4)];}
+
+// ═══ CLOCK & TOPBAR ═══
 let startTime=Date.now();
-setInterval(()=>{
+function tick(){
   const n=new Date();
   document.getElementById('clock').textContent=n.toTimeString().slice(0,8);
-  const up=Math.floor((Date.now()-startTime)/1000);
-  document.getElementById('stat-uptime').textContent=up<60?up+'s':Math.floor(up/60)+'m '+(up%60)+'s';
-  document.getElementById('stat-temp').textContent=(Math.random()*5+37).toFixed(1)+'°C';
-},1000);
-
-// Meters
-setInterval(()=>{
-  [['m1','m1v'],['m2','m2v'],['m3','m3v'],['m4','m4v']].forEach(([id,vid])=>{
-    const v=Math.floor(Math.random()*100);
-    document.getElementById(id).style.width=v+'%';
-    document.getElementById(vid).textContent=v+'%';
-  });
-},1800);
-
-// Chart
-const canvas=document.getElementById('chart');
-const ctx=canvas.getContext('2d');
-let cdata=Array.from({length:40},()=>Math.random()*50+5);
-function drawChart(){
-  canvas.width=canvas.offsetWidth||190;canvas.height=55;
-  ctx.clearRect(0,0,canvas.width,55);
-  ctx.strokeStyle='#ff3c00';ctx.lineWidth=1;ctx.beginPath();
-  cdata.forEach((v,i)=>{const x=(i/(cdata.length-1))*canvas.width;const y=55-(v/100)*55;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
-  ctx.stroke();
+  document.getElementById('tb-cpu').textContent=absurdPct();
+  document.getElementById('tb-mem').textContent=absurdSize();
+  document.getElementById('tb-nix').textContent=absurdNum();
+  document.getElementById('sb1').textContent=absurdNum();
+  document.getElementById('sb2').textContent=absurdNum();
+  document.getElementById('sb3').textContent=absurdPct();
+  document.getElementById('sb4').textContent=absurdNum();
+  document.getElementById('sb5').textContent=absurdTime();
+  document.getElementById('sb6').textContent=absurdTemp();
+  document.getElementById('sb7').textContent=absurdNum();
+  document.getElementById('sb8').textContent=absurdNum();
+  document.getElementById('sb9').textContent=absurdPct();
+  document.getElementById('sc3').textContent=absurdTime();
+  document.getElementById('sc4').textContent=absurdTemp();
+  document.getElementById('sc5').textContent=absurdNum();
+  document.getElementById('sc6').textContent=absurdSize();
+  document.getElementById('sc7').textContent=absurdNum();
+  document.getElementById('sc8').textContent=absurdNum();
+  document.getElementById('opslag').textContent=absurdSize();
+  document.getElementById('last-login').textContent=absurdTime()+' geleden';
+  document.getElementById('sc2').textContent=absurdNum();
 }
-setInterval(()=>{cdata.push(Math.random()*50+5);if(cdata.length>40)cdata.shift();drawChart();},700);
-drawChart();
+setInterval(tick,1200);tick();
 
-// Log
+// update versie
+setInterval(()=>{document.getElementById('sc1').textContent=absurdNum();},3000);
+document.getElementById('sc1').textContent=absurdNum();
+
+// version randomizer
+function rndVer(){
+  const v=document.querySelector('.hero-sub');
+  // leave it
+}
+
+// ═══ METERS ═══
+function updateMeters(){
+  [['m1','m1v'],['m2','m2v'],['m3','m3v'],['m4','m4v'],['m5','m5v'],['m6','m6v'],['m7','m7v']].forEach(([id,vid])=>{
+    const v=rnd(0,100);
+    document.getElementById(id).style.width=v+'%';
+    document.getElementById(vid).textContent=absurdPct();
+  });
+}
+setInterval(updateMeters,1500);updateMeters();
+
+// ═══ CHARTS ═══
+function makeChart(canvasId,color){
+  const c=document.getElementById(canvasId);
+  const ctx=c.getContext('2d');
+  let data=Array.from({length:40},()=>Math.random()*70+5);
+  function draw(){
+    c.width=c.offsetWidth||180;c.height=50;
+    ctx.clearRect(0,0,c.width,50);
+    ctx.strokeStyle=color;ctx.lineWidth=1;ctx.beginPath();
+    data.forEach((v,i)=>{const x=(i/(data.length-1))*c.width;const y=50-(v/100)*50;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+    ctx.stroke();
+  }
+  setInterval(()=>{data.push(Math.random()*70+5);if(data.length>40)data.shift();draw();},600+Math.random()*400);
+  draw();
+}
+makeChart('chartA','#ff3c00');
+makeChart('chartB','#00aaff');
+
+// ═══ PIE ═══
+setInterval(()=>{
+  const a=rnd(5,80),b=rnd(5,80),cc=rnd(5,60),d=100-Math.min(a+b+cc,95);
+  const pie=document.getElementById('pie');
+  if(pie)pie.style.background=`conic-gradient(var(--accent) 0% ${a}%,var(--green) ${a}% ${a+b}%,var(--blue) ${a+b}% ${a+b+cc}%,var(--yellow) ${a+b+cc}% 100%)`;
+},2500);
+
+// ═══ LOG ═══
 function ts(){return new Date().toTimeString().slice(0,8);}
 function logMsg(type,msg){
   const log=document.getElementById('log');
@@ -303,133 +570,171 @@ function logMsg(type,msg){
   log.appendChild(d);log.scrollTop=log.scrollHeight;
 }
 
-// Notify
+// ═══ NOTIFY ═══
+let notifCount=0;
 function notify(msg,color=''){
+  notifCount++;
+  document.getElementById('notif-badge').textContent=notifCount;
   const a=document.getElementById('notifs');
   const n=document.createElement('div');n.className='notif '+color;n.textContent=msg;
   a.appendChild(n);
   const nl=document.getElementById('notif-log');
-  nl.innerHTML=`<div style="color:var(--mid);border-bottom:1px solid var(--border);padding:2px 0;">${msg}</div>`+nl.innerHTML;
-  setTimeout(()=>n.remove(),3200);
+  nl.innerHTML=`<div style="border-bottom:1px solid var(--border);padding:2px 0;">${msg}</div>`+nl.innerHTML;
+  setTimeout(()=>n.remove(),3000);
 }
 
-// Queue
+// ═══ QUEUE ═══
 let queue=[];
 function addQueue(item){
   queue.push(item);renderQ();
-  setTimeout(()=>{queue=queue.filter(q=>q!==item);renderQ();},Math.random()*3000+800);
+  setTimeout(()=>{queue=queue.filter(q=>q!==item);renderQ();},rnd(800,3500));
 }
 function renderQ(){
   document.getElementById('q-badge').textContent=queue.length;
   const el=document.getElementById('queue-list');
   el.innerHTML=queue.length===0?'<div style="color:var(--border);font-style:italic;">— leeg —</div>':
-    queue.map(q=>`<div class="stat-row"><span>${q}</span><span style="color:var(--yellow);">⏳</span></div>`).join('');
+    queue.map(q=>`<div class="sr"><span>${q}</span><span class="v y">⏳</span></div>`).join('');
 }
 
-// Counter
-let count=0,totalClicks=0;
-function rndDelta(){
-  const r=Math.random();
-  if(r<.15)return 0;
-  if(r<.25)return -Math.floor(Math.random()*47+1);
-  if(r<.35)return Math.floor(Math.random()*999+100);
-  if(r<.40)return -count;
-  return Math.floor(Math.random()*3+1);
+// ═══ TABLE ═══
+const tableHeaders=['ID','Naam','Waarde','Status','Ref'];
+const tableNames=['niks-001','leegte-α','∅-proc','void_x','nix_99','null_op','leeg-02'];
+const tableStatuses=['✓ OK','✗ FOUT','⏳ WACHT','∅ NVT','? ?????'];
+function updateTable(){
+  const tbl=document.getElementById('fake-table');
+  if(!tbl)return;
+  let html=`<tr>${tableHeaders.map(h=>`<th>${h}</th>`).join('')}</tr>`;
+  for(let i=0;i<6;i++){
+    const cols=[absurdNum(),tableNames[rnd(0,tableNames.length-1)],absurdNum(),tableStatuses[rnd(0,tableStatuses.length-1)],absurdNum()];
+    html+=`<tr>${cols.map((c,j)=>`<td${j===1||j===3?'':' class="v"'}>${c}</td>`).join('')}</tr>`;
+  }
+  tbl.innerHTML=html;
 }
+setInterval(updateTable,2000);updateTable();
 
-// Function buttons
-const fns=[
-  {i:'🔄',l:'Vernieuwen',f:()=>{logMsg('info','Vernieuwen... niks veranderd.');notify('Vernieuwd: 0 wijzigingen.','b');}},
-  {i:'💾',l:'Opslaan',f:()=>{logMsg('ok','Opgeslagen: 0 bytes.');notify('Opgeslagen: niks.','g');addQueue('opslaan');}},
-  {i:'🗑️',l:'Verwijderen',f:()=>{logMsg('err','Niks te verwijderen.');notify('Fout: niks gevonden.');}},
-  {i:'📤',l:'Verzenden',f:()=>{logMsg('info','Verzonden: 0 pakketjes.');notify('Verzonden naar: nergens.','b');addQueue('verzenden');}},
-  {i:'📊',l:'Rapportage',f:()=>{logMsg('info','Rapport: leeg.');showModal('Rapport Klaar','Uw rapport is gegenereerd. Het bevat geen informatie, geen grafieken en geen conclusies. Omvang: 0 bytes.');}},
-  {i:'⚙️',l:'Configureren',f:()=>{logMsg('info','Configuratie ongewijzigd.');notify('Instellingen: niet aangepast.','b');}},
-  {i:'🔔',l:'Melding sturen',f:()=>{logMsg('warn','Melding naar niemand.');notify('Testmelding afgeleverd aan ∅.','y');}},
-  {i:'📋',l:'Kopiëren',f:()=>{logMsg('ok','Gekopieerd: niks.');notify('Niks op klembord.','g');}},
-  {i:'🔗',l:'Koppelen',f:()=>{logMsg('info','Koppeling: ∅↔∅.');notify('Gekoppeld aan niks.','b');}},
-  {i:'📦',l:'Archiveren',f:()=>{logMsg('ok','Archief: 0 bestanden.');notify('niks.zip aangemaakt (0 bytes)','g');addQueue('archiveren');}},
-  {i:'🔒',l:'Vergrendelen',f:()=>{logMsg('warn','Vergrendeld: niks.');notify('Niks beveiligd.','y');}},
-  {i:'📡',l:'Synchroniseren',f:()=>{logMsg('info','Sync: 0 records.');notify('Gesynchroniseerd met leegte.','b');addQueue('sync');}},
-  {i:'🧹',l:'Opruimen',f:()=>{logMsg('ok','0 MB vrijgemaakt.');notify('Cache leeg (was al leeg).','g');}},
-  {i:'📈',l:'Analyseren',f:()=>{logMsg('info','Analyse: geen patronen.');showModal('Analyse Voltooid','AI-analyse compleet. Bevindingen: geen data. Aanbeveling: doe niks. Betrouwbaarheid: 100%.');}},
-  {i:'🌐',l:'Publiceren',f:()=>{logMsg('err','Niks te publiceren.');notify('Fout: geen inhoud.');}},
-  {i:'↩️',l:'Ongedaan',f:()=>{logMsg('warn','Niks te herstellen.');notify('Teruggedraaid: 0 acties.','y');}},
-  {i:'🎲',l:'Willekeurig',f:()=>{const n=Math.floor(Math.random()*9999);logMsg('info',`Getal: ${n}. Gebruik: geen.`);notify(`Gegenereerd: ${n} (nutteloos).`,'b');}},
-  {i:'🚀',l:'Lanceren',f:()=>{logMsg('info','Lancering afgebroken. Reden: niks.');notify('Lancering geannuleerd.','y');addQueue('lancering');}},
-  {i:'🔍',l:'Zoeken',f:()=>{logMsg('warn','Zoekresultaten: 0.');notify('Niks gevonden.');}},
-  {i:'📥',l:'Importeren',f:()=>{logMsg('info','Import: 0 bestanden geladen.');notify('Geïmporteerd: niks.','b');}},
-];
+// ═══ TICKER ═══
+const tickerMsgs=['NIKS-INDEX STIJGT MET '+absurdPct(),'LEEGTE-KOERS: '+absurdNum(),'NIKS.NL UP '+absurdPct(),'MELDING: '+absurdNum()+' NIEUWE NIKS ONTVANGEN','SYSTEEM: NIKS ACTIEF','WAARSCHUWING: TE VEEL NIKS','NIKS-FUTURES: '+absurdNum(),'UPDATE: VERSIE '+absurdVer()+' BESCHIKBAAR','BACK-UP VOLTOOID: 0 BYTES','VEILIGHEIDSMELDING: ALLES LEEG'];
+function buildTicker(){
+  const t=document.getElementById('ticker-inner');
+  let html='';
+  for(let i=0;i<3;i++){
+    tickerMsgs.forEach(m=>{html+=`<span style="color:var(--accent);">■</span> <span>${m}</span> `;});
+  }
+  t.innerHTML=html;
+}
+buildTicker();
+setInterval(()=>{
+  const spans=document.getElementById('ticker-inner').querySelectorAll('span:not([style])');
+  if(spans.length>0){const i=rnd(0,spans.length-1);spans[i].textContent=tickerMsgs[rnd(0,tickerMsgs.length-1)].replace(/[0-9]+%?/g,()=>absurdNum());}
+},3000);
 
-const grid=document.getElementById('fn-grid');
-fns.forEach(f=>{
-  const btn=document.createElement('button');
-  btn.className='fn-btn';
-  btn.innerHTML=`<span class="fn-icon">${f.i}</span>${f.l}`;
-  btn.onclick=()=>{
-    btn.classList.add('loading');
-    btn.innerHTML=`<span class="fn-icon">⏳</span>bezig...`;
-    const dur=Math.random()*1400+300;
-    setTimeout(()=>{
-      btn.classList.remove('loading');
-      const ok=Math.random()>.2;
-      btn.classList.add(ok?'done':'error');
-      btn.innerHTML=`<span class="fn-icon">${f.i}</span>${ok?'✓ klaar':'✗ fout'}`;
-      f.f();
-      setTimeout(()=>{btn.className='fn-btn';btn.innerHTML=`<span class="fn-icon">${f.i}</span>${f.l}`;},1600);
-    },dur);
-  };
-  grid.appendChild(btn);
-});
-
-// Main button
+// ═══ MAIN BUTTON ═══
 const niksMsgs=['niks gedaan.','succesvol niks uitgevoerd.','operatie niks: geslaagd.',
   'er is niks gebeurd.','nul resultaten. perfect.','de leegte bevestigt zichzelf.',
-  'klaar. alles ongewijzigd.','∅','proces afgerond: 0 effecten.','STATUS: niks.'];
-
+  'klaar. alles ongewijzigd.','∅','proces afgerond: 0 effecten.','STATUS: niks.',
+  'niks²','fout 0x00000000: niks.','berekening voltooid: niks.',
+  'transactie geslaagd: -niks.','verbinding verbroken met niks.'];
+let totalClicks=0;
 function doNiks(){
   totalClicks++;
-  count=Math.max(0,count+rndDelta());
-  document.getElementById('stat-clicks').textContent=totalClicks;
-  document.getElementById('stat-score').textContent=Math.floor(Math.random()*9999);
+  document.getElementById('sc1').textContent=absurdNum();
   const btn=document.getElementById('mainBtn');
   btn.classList.add('shake');
   btn.addEventListener('animationend',()=>btn.classList.remove('shake'),{once:true});
   const res=document.getElementById('result');
   res.classList.add('active');
-  res.textContent=niksMsgs[Math.floor(Math.random()*niksMsgs.length)];
+  res.textContent=niksMsgs[rnd(0,niksMsgs.length-1)];
   const prog=document.getElementById('prog');
   const pct=document.getElementById('prog-pct');
   const lbl=document.getElementById('prog-label');
-  const target=Math.floor(Math.random()*50)+40;
-  prog.style.width=target+'%';pct.textContent=target+'%';lbl.textContent='niks laden...';
-  logMsg(Math.random()>.3?'ok':'warn',`Niks uitgevoerd. Code: NKS-${Math.floor(Math.random()*9999)}.`);
-  addQueue('niks #'+totalClicks);
+  const target=rnd(30,100);
+  prog.style.width=target+'%';pct.textContent=absurdPct();lbl.textContent='niks laden...';
+  logMsg(Math.random()>.3?'ok':'warn',`Niks uitgevoerd. Code: NKS-${absurdNum()}. Duur: ${absurdNum()}ms.`);
+  addQueue('niks #'+absurdNum());
   const rl=document.getElementById('recent-list');
-  const row=document.createElement('div');row.className='stat-row';
-  row.innerHTML=`<span>niks #${totalClicks}</span><span style="color:var(--green);">✓</span>`;
-  rl.prepend(row);if(rl.children.length>7)rl.lastChild.remove();
-  setTimeout(()=>{prog.style.width='0%';pct.textContent='0%';lbl.textContent='niks-voortgang';
-    res.classList.remove('active');res.textContent=`klaar. er is niks veranderd. (tel: ${count})`;},2800);
-  document.getElementById('status-text').textContent='verwerken...';
+  const row=document.createElement('div');row.className='sr';
+  row.innerHTML=`<span>niks ${absurdNum()}</span><span class="v g">✓</span>`;
+  rl.prepend(row);if(rl.children.length>8)rl.lastChild.remove();
+  document.getElementById('rec-badge').textContent=absurdNum();
+  setTimeout(()=>{prog.style.width='0%';pct.textContent='?';lbl.textContent='niks-voortgang';
+    res.classList.remove('active');res.textContent=`klaar. niks veranderd. refs: ${absurdNum()}`;},2800);
+  document.getElementById('status-text').textContent='verwerken: '+absurdNum()+'ms';
   setTimeout(()=>{document.getElementById('status-text').textContent='klaar voor niks';},2000);
 }
 
-function submitForm(){logMsg('info','Formulier ingediend: 0 velden opgeslagen.');notify('Formulier verzonden naar niks@niks.nl','b');showModal('Formulier Ontvangen','Uw formulier is ontvangen en wordt verwerkt binnen 0–0 werkdagen. U ontvangt geen bevestiging. Bedankt voor uw niks.');}
-function exp(type){logMsg('ok',`Export ${type}: 0 bytes.`);notify(`${type} geëxporteerd: niks.${type.toLowerCase()}`,'g');addQueue(`export ${type}`);}
-function upgrade(){showModal('Niks Pro','Welkom bij Niks Pro! Voor slechts €0/maand: onbeperkt niks, prioriteits-niks, 24/7 niks-support, en een gouden leegte-certificaat.');}
-function tog(el){el.classList.toggle('on');const lbl=el.previousElementSibling.textContent;logMsg('info',`"${lbl}" ${el.classList.contains('on')?'aan':'uit'}. Effect: niks.`);}
-function showModal(t,b){document.getElementById('modal-title').textContent=t;document.getElementById('modal-body').textContent=b;document.getElementById('modal-overlay').classList.add('open');}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');logMsg('info','Dialoog gesloten. Beslissing: niks.');}
-
-const taskNames=['Niks beoordelen','Leegte inplannen','Niks archiveren','Rapport van niks','Niks presenteren','Meeting over niks'];
-function addTask(){
-  const tl=document.getElementById('task-list');
-  const row=document.createElement('div');row.className='stat-row';
-  const name=taskNames[Math.floor(Math.random()*taskNames.length)];
-  row.innerHTML=`<span>${name}</span><span style="color:var(--muted);">—</span>`;
-  tl.appendChild(row);logMsg('info',`Taak toegevoegd: "${name}". Deadline: nooit.`);
+// ═══ WIDE BUTTON HELPER ═══
+function wbtn(name,fn){
+  const dur=rnd(200,1800);
+  logMsg('info',`${name} gestart... [${absurdNum()}ms verwacht]`);
+  setTimeout(()=>{fn();addQueue(name.toLowerCase());},dur);
 }
+
+// ═══ FUNCTION BUTTONS ═══
+const fns=[
+  {i:'🔄',l:'Vernieuwen',f:()=>{logMsg('info','Vernieuwen: 0 wijzigingen.');notify('Vernieuwd: niks.','b');}},
+  {i:'💾',l:'Opslaan',f:()=>{logMsg('ok',`Opgeslagen: ${absurdSize()}.`);notify('Opgeslagen: niks.','g');addQueue('opslaan');}},
+  {i:'🗑️',l:'Verwijderen',f:()=>{logMsg('err','Niks te verwijderen.');notify('Fout: niks gevonden.');}},
+  {i:'📤',l:'Verzenden',f:()=>{logMsg('info',`Verzonden: ${absurdNum()} pakketjes.`);notify('Verzonden naar: nergens.','b');addQueue('verzenden');}},
+  {i:'📊',l:'Rapport',f:()=>{logMsg('info',`Rapport: ${absurdSize()} leeg.`);showModal('Rapport','Rapport gegenereerd. Paginas: '+absurdNum()+'. Inhoud: niks. Aanbeveling: niks doen.');}},
+  {i:'⚙️',l:'Config',f:()=>{logMsg('info','Configuratie ongewijzigd.');notify('Instellingen: niks aangepast.','b');}},
+  {i:'🔔',l:'Melding',f:()=>{logMsg('warn','Melding naar niemand.');notify('Testmelding afgeleverd aan ∅.','y');}},
+  {i:'📋',l:'Kopiëren',f:()=>{logMsg('ok','Gekopieerd: niks.');notify('Klembord: leeg.','g');}},
+  {i:'📡',l:'Sync',f:()=>{logMsg('info',`Sync: ${absurdNum()} records.`);notify('Gesynchroniseerd met leegte.','b');addQueue('sync');}},
+  {i:'🧹',l:'Opruimen',f:()=>{logMsg('ok',`Vrijgemaakt: ${absurdSize()}.`);notify('Cache leeg (was al leeg).','g');}},
+  {i:'📈',l:'Analyse',f:()=>{logMsg('info','Analyse: geen patronen.');showModal('Analyse','AI-analyse compleet. Datapunten: '+absurdNum()+'. Conclusie: niks.');}},
+  {i:'🌐',l:'Publiceren',f:()=>{logMsg('err','Niks te publiceren.');notify('Fout: geen inhoud.');}},
+  {i:'🎲',l:'Willekeurig',f:()=>{const n=absurdNum();logMsg('info',`Getal: ${n}. Gebruik: geen.`);notify(`Getal: ${n} (nutteloos).`,'b');}},
+  {i:'🚀',l:'Lanceren',f:()=>{logMsg('info','Lancering afgebroken: niks.');notify('Lancering geannuleerd.','y');addQueue('lancering');}},
+  {i:'📥',l:'Importeren',f:()=>{logMsg('info',`Import: ${absurdNum()} bestanden = niks.`);notify('Geïmporteerd: niks.','b');}},
+  {i:'🔍',l:'Zoeken',f:()=>{logMsg('warn',`Resultaten: ${absurdNum()} (allemaal niks).`);}},
+  {i:'📦',l:'Archief',f:()=>{logMsg('ok',`Archief: ${absurdSize()} niks.`);notify('niks.zip: '+absurdSize(),'g');}},
+  {i:'🔐',l:'Beveiligen',f:()=>{logMsg('warn','Beveiligd: niks.');notify('Niks beveiligd met AES-∅.','y');}},
+  {i:'🧪',l:'Testen',f:()=>{logMsg('ok',`Tests: ${absurdNum()} geslaagd, ${absurdNum()} mislukt.`);notify('Testresultaat: niks.','g');}},
+  {i:'📱',l:'Mobiel',f:()=>{logMsg('info','Mobiele versie: ook niks.');notify('App: geïnstalleerd (doet niks).','b');}},
+  {i:'☁️',l:'Cloud',f:()=>{logMsg('b','Cloud sync: '+absurdSize()+' niks.');notify('Cloud: vol met niks.','b');}},
+  {i:'🤖',l:'AI',f:()=>{logMsg('prp','AI-model draait: conclusie niks.');showModal('AI Analyse','Neuraal netwerk heeft '+absurdNum()+' parameters geanalyseerd. Output: niks. Confidence: '+absurdPct()+'.');}},
+  {i:'🗺️',l:'Kaart',f:()=>{logMsg('info','Locatie: nergens. Coördinaten: ∅,∅.');notify('GPS: niks gevonden.','y');}},
+  {i:'💬',l:'Chat',f:()=>{logMsg('info','Berichtje verstuurd naar niemand.');notify('Niks verzonden.','b');}},
+];
+const grid=document.getElementById('fn-grid');
+fns.forEach(f=>{
+  const btn=document.createElement('button');btn.className='fn-btn';
+  btn.innerHTML=`<span class="fi">${f.i}</span>${f.l}`;
+  btn.onclick=()=>{
+    btn.classList.add('loading');btn.innerHTML=`<span class="fi">⏳</span>wacht...`;
+    setTimeout(()=>{
+      btn.classList.remove('loading');const ok=Math.random()>.2;
+      btn.classList.add(ok?'done':'error');
+      btn.innerHTML=`<span class="fi">${f.i}</span>${ok?'✓':'✗'}`;
+      f.f();
+      setTimeout(()=>{btn.className='fn-btn';btn.innerHTML=`<span class="fi">${f.i}</span>${f.l}`;},1400);
+    },rnd(200,1600));
+  };
+  grid.appendChild(btn);
+});
+
+// ═══ ANALYSE ═══
+function analyse(type){
+  logMsg('prp',`${type}: verwerken... ${absurdNum()} datapunten.`);
+  addQueue('analyse: '+type.toLowerCase());
+  setTimeout(()=>{
+    notify(`${type} klaar: ${absurdNum()} inzichten (allemaal niks).`,'p');
+    logMsg('ok',`${type} voltooid. Resultaat: niks. Betrouwbaarheid: ${absurdPct()}.`);
+  },rnd(800,2500));
+}
+
+// ═══ FORM / EXPORT / UPGRADE ═══
+function submitForm(){logMsg('info','Formulier ingediend: '+absurdNum()+' velden = niks.');notify('Formulier → niks@niks.nl','b');showModal('Ontvangen','Uw formulier is ontvangen. Verwerkingstijd: '+absurdNum()+' werkdagen. U ontvangt geen reactie. Referentienummer: '+absurdNum()+'.');}
+function exp(type){logMsg('ok',`Export ${type}: ${absurdSize()}.`);notify(`${type} → niks.${type.toLowerCase()} (${absurdSize()})`,'g');addQueue(`export ${type}`);}
+function upgrade(){showModal('Niks Pro',`Welkom bij Niks Pro! Prijs: €${absurdNum()}/maand. Inclusief: ${absurdNum()} extra niks, ${absurdNum()}x snellere leegte, en een gouden niks-certificaat.`);}
+function tog(el,name){el.classList.toggle('on');logMsg('info',`"${name}" ${el.classList.contains('on')?'aan':'uit'}. Effect: niks.`);}
+function showModal(t,b){document.getElementById('modal-title').textContent=t;document.getElementById('modal-body').textContent=b;document.getElementById('modal-overlay').classList.add('open');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');logMsg('info','Dialoog gesloten: niks besloten.');}
+
+// ═══ TASKS ═══
+const taskNames=['Niks beoordelen','Leegte inplannen','Niks archiveren','Rapport van niks','Niks presenteren','Meeting over niks','Niks delegeren','Niks monitoren','Niks escaleren','Niks de-escaleren'];
+function addTask(){const tl=document.getElementById('task-list');const row=document.createElement('div');row.className='sr';const name=taskNames[rnd(0,taskNames.length-1)];row.innerHTML=`<span>${name}</span><span style="color:var(--muted);">—</span>`;tl.appendChild(row);logMsg('info',`Taak: "${name}". Deadline: ${absurdNum()} dagen.`);}
+function clearTasks(){document.getElementById('task-list').innerHTML='<div class="sr"><span style="color:var(--border);font-style:italic;">leeg</span><span></span></div>';logMsg('ok','Taken gewist: waren toch niks.');}
 </script>
 </body>
 </html>
