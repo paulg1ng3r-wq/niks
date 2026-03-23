@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De App Die Niks Doet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f0ece2;
+    --accent: #ff3c00;
+    --muted: #2a2a2a;
+    --mid: #555;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.3;
+  }
+
+  /* Scanlines */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 101;
+  }
+
+  .container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    padding: 2rem;
+    max-width: 600px;
+  }
+
+  .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--mid);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 0.3s;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 15vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 0.6s;
+  }
+
+  h1 span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .subtitle {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    font-style: italic;
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 0.9s;
+  }
+
+  /* THE BUTTON */
+  .btn-wrap {
+    margin-top: 3.5rem;
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 1.2s;
+  }
+
+  .big-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+    padding: 1rem 3rem;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 4px 4px 0 var(--fg);
+  }
+
+  .big-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--fg);
+  }
+
+  .big-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--fg);
+  }
+
+  /* Result */
+  .result {
+    margin-top: 2.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    min-height: 1.2rem;
+    transition: color 0.3s ease;
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 1.4s;
+  }
+
+  .result.active {
+    color: var(--accent);
+  }
+
+  /* Counter */
+  .stats {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    z-index: 10;
+    animation: fadein 2s ease forwards;
+    opacity: 0;
+    animation-delay: 2s;
+  }
+
+  .stats span {
+    color: var(--mid);
+    transition: color 0.3s;
+  }
+
+  /* Corner decoration */
+  .corner {
+    position: fixed;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .corner.tl { top: 1.5rem; left: 1.5rem; }
+  .corner.tr { top: 1.5rem; right: 1.5rem; text-align: right; }
+  .corner.bl { bottom: 1.5rem; left: 1.5rem; }
+  .corner.br { bottom: 1.5rem; right: 1.5rem; text-align: right; }
+
+  /* Progress bar that does nothing */
+  .progress-wrap {
+    margin-top: 2rem;
+    width: 100%;
+    height: 2px;
+    background: var(--muted);
+    position: relative;
+    animation: fadein 1s ease forwards;
+    opacity: 0;
+    animation-delay: 1.6s;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.55rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes fadein {
+    to { opacity: 1; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px) rotate(-1deg); }
+    40% { transform: translateX(6px) rotate(1deg); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .shake { animation: shake 0.4s ease; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<div class="corner tl">v0.0.0</div>
+<div class="corner tr">NUTTELOOS™</div>
+<div class="corner bl">© niemand</div>
+<div class="corner br">EST. nu</div>
+
+<div class="container">
+  <p class="label">welkom bij</p>
+  <h1>DE APP<span>DIE NIKS<br>DOET</span></h1>
+  <p class="subtitle">— volledig functioneel —</p>
+
+  <div class="btn-wrap">
+    <button class="big-btn" id="mainBtn" onclick="doNiks()">DOE NIKS</button>
+  </div>
+
+  <p class="result" id="result">wachtend op niks...</p>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="progress-label">
+      <span>voortgang</span>
+      <span id="pct">0%</span>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  keer op niks geklikt: <span id="counter">0</span> &nbsp;|&nbsp; resultaat: <span id="resultStat">niks</span>
+</div>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  let count = 0;
+  function randomDelta() {
+    const r = Math.random();
+    if (r < 0.15) return 0;                          // soms niks
+    if (r < 0.25) return -Math.floor(Math.random() * 47 + 1); // soms omlaag
+    if (r < 0.35) return Math.floor(Math.random() * 999 + 100); // soms een hoop
+    if (r < 0.40) return -count;                     // soms terug naar 0
+    return Math.floor(Math.random() * 3 + 1);        // soms normaal
+  }
+  const msgs = [
+    "niks gedaan.",
+    "succesvol niks uitgevoerd.",
+    "operatie niks: geslaagd.",
+    "er is niks gebeurd.",
+    "precies wat verwacht: niks.",
+    "nul resultaten. perfect.",
+    "de leegte bevestigt zichzelf.",
+    "??",
+    "waarom doe je dit nog steeds?",
+    "serieus.",
+    "ok.",
+    "...",
+    "niks.",
+    "NIKS.",
+    "nog steeds niks.",
+    "je bent erg toegewijd aan niks.",
+    "indrukwekkend nutteloos.",
+    "wij waarderen uw inzet voor het niets.",
+    "niks²",
+    "∅",
+  ];
+
+  const progressMsgs = [
+    "laden van niks...",
+    "niks bijna klaar...",
+    "nog even...",
+    "bijna niks...",
+    "niks geladen ✓",
+  ];
+
+  function doNiks() {
+    count = Math.max(0, count + randomDelta());
+    const btn = document.getElementById('mainBtn');
+    const result = document.getElementById('result');
+    const counter = document.getElementById('counter');
+    const bar = document.getElementById('progressBar');
+    const pct = document.getElementById('pct');
+
+    counter.textContent = count;
+    result.classList.add('active');
+    btn.classList.add('shake');
+    btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
+
+    const msg = msgs[Math.min(count - 1, msgs.length - 1)];
+    result.textContent = msg;
+
+    // Fake progress bar
+    const target = Math.floor(Math.random() * 40) + 60;
+    bar.style.width = target + '%';
+    pct.textContent = target + '%';
+    setTimeout(() => {
+      bar.style.width = '0%';
+      pct.textContent = '0%';
+      result.classList.remove('active');
+      result.textContent = 'klaar. er is niks veranderd.';
+    }, 3000);
+
+    document.getElementById('resultStat').textContent = 'niks';
+  }
+</script>
+</body>
+</html>
